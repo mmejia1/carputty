@@ -1,11 +1,13 @@
 import React, { useState } from 'react';
+import ProgressBar from './ProgressBar';
 
-function App() {
-  //adding amount donated to state
-  //const totalAmount = 5000
+function DonationForm() {
+  //info for bar component
   const [totalAmount, setTotalAmount] = useState(5000);
   //for checking that the amount submitted is 5 || greater
-  //sets nums as strings
+  //this info gets used for calculating how much needed
+  // const [amountRaised, setAmountRaised] = useState(0);
+  const [donaters, setDonators] = useState(0);
   const [inputAmount, setInputAmount] = useState('');
   const [tooLow, setTooLow] = useState(false);
   const [tooHigh, setTooHigh] = useState(false);
@@ -24,8 +26,10 @@ function App() {
     console.log(numArray);
     numArray = evt.target.value;
     console.log('numArray', numArray);
+    console.log(typeof amountRaised);
+
+    //console.log('amount', amount);
     setInputAmount(numArray);
-    // console.log(inputAmount);
   }
   function handleSum() {
     //here well do our check for $5
@@ -33,8 +37,11 @@ function App() {
       console.log('inputamount', inputAmount);
       const amountNeeded = totalAmount - inputAmount;
       console.log(typeof totalAmount);
+      // let amount = amountRaised + Number(inputAmount);
+      // console.log('amount', amount);
       console.log(amountNeeded);
       setTotalAmount(amountNeeded);
+      //  setAmountRaised(amount);
     }
     if (Number(inputAmount) > Number(totalAmount)) {
       setTooHigh(true);
@@ -47,6 +54,7 @@ function App() {
 
   return (
     <>
+      <ProgressBar needed={totalAmount} />
       <div>CARPUTTY ☕️ hey</div>
       <div>total is {totalAmount}</div>
       <form onSubmit={handleSubmit}>
@@ -70,4 +78,4 @@ function App() {
   );
 }
 
-export default App;
+export default DonationForm;
