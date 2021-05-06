@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import ProgressBar from './ProgressBar';
+//import App from './';
 
 function DonationForm() {
   //info for bar component
@@ -64,14 +65,13 @@ function DonationForm() {
     <>
       <ProgressBar needed={totalAmount} completed={amountRaised} />
       <h2 className='mt-5 mb-5'>Only a few days left to fund this project</h2>
-      <p>
-        join the {donors} other donors that have already suported this project
+      <p id='donoramount'>
+        Join the {donors} other donors that have already suported this project
       </p>
-      <div>CARPUTTY ☕️ hey</div>
-      <div>total is {totalAmount}</div>
+      <div>total raised is {totalAmount}</div>
       <form onSubmit={handleSubmit}>
         <div className='App'>
-          <label htmlFor='amount'>amount:</label>
+          <label htmlFor='amount'></label>
           <input
             name='input amount'
             onChange={(evt) => onChange(evt)}
