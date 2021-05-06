@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 import ProgressBar from './ProgressBar';
+import { Button, Form, Container, Row, Col } from 'react-bootstrap';
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 function DonationForm() {
   //info for bar component
@@ -26,8 +28,6 @@ function DonationForm() {
     numArray = evt.target.value;
     console.log('numArray', numArray);
     console.log(typeof amountRaised);
-
-    //console.log('amount', amount);
     setInputAmount(numArray);
   }
   function handleSum() {
@@ -51,9 +51,6 @@ function DonationForm() {
       let numberOfDonors = donors + 1;
       setDonators(numberOfDonors);
     }
-    // if (Number(inputAmount) > Number(totalAmount)) {
-    //   setTooHigh(true);
-    // }
     if (Number(inputAmount) < 5) {
       console.log('OOPS!');
       setTooLow(true);
@@ -64,22 +61,23 @@ function DonationForm() {
     <>
       <ProgressBar needed={totalAmount} completed={amountRaised} />
       <h2 className='mt-5 mb-5'>Only a few days left to fund this project</h2>
-      <p>
-        join the {donors} other donors that have already suported this project
+      <p id='join'>
+        Join the {donors} other donors that have already suported this project
       </p>
-      <div>CARPUTTY ☕️ hey</div>
-      <div>total is {totalAmount}</div>
+
+      <div>total raised is {totalAmount}</div>
       <form onSubmit={handleSubmit}>
         <div className='App'>
-          <label htmlFor='amount'>amount:</label>
+          <label htmlFor='amount'></label>
           <input
+            placeholder='$'
             name='input amount'
             onChange={(evt) => onChange(evt)}
             value={inputAmount}
           />
-          <button type='submit' onClick={handleSum}>
+          <Button type='submit' onClick={handleSum}>
             Give Now
-          </button>
+          </Button>
         </div>
         {tooLow && <p>Please input $5 or a higher amount! </p>}
         {weHitTarget && <p>YAY! We hit our target! </p>}
