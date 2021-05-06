@@ -5,12 +5,11 @@ function DonationForm() {
   //info for bar component
   const [totalAmount, setTotalAmount] = useState(5000);
   //for checking that the amount submitted is 5 || greater
-  //this info gets used for calculating how much needed
-  // const [amountRaised, setAmountRaised] = useState(0);
-  const [donaters, setDonators] = useState(0);
+  const [amountRaised, setAmountRaised] = useState(0);
+  const [donors, setDonators] = useState(0);
   const [inputAmount, setInputAmount] = useState('');
   const [tooLow, setTooLow] = useState(false);
-  const [tooHigh, setTooHigh] = useState(false);
+  const [weHitTarget, setWeHitTarget] = useState(false);
 
   //function setTotalAmount() {}
 
@@ -33,19 +32,28 @@ function DonationForm() {
   }
   function handleSum() {
     //here well do our check for $5
-    if (Number(inputAmount) > 5 && Number(inputAmount) < Number(totalAmount)) {
+    if (Number(inputAmount) > 5) {
       console.log('inputamount', inputAmount);
       const amountNeeded = totalAmount - inputAmount;
       console.log(typeof totalAmount);
-      // let amount = amountRaised + Number(inputAmount);
-      // console.log('amount', amount);
+      let amount = amountRaised + Number(inputAmount);
+      console.log('amount', amount);
       console.log(amountNeeded);
+      //add donor
+      let numberOfDonors = donors + 1;
       setTotalAmount(amountNeeded);
-      //  setAmountRaised(amount);
+      console.log('numberOfDonors', numberOfDonors);
+      setDonators(numberOfDonors);
+      setAmountRaised(amount);
     }
     if (Number(inputAmount) > Number(totalAmount)) {
-      setTooHigh(true);
+      setWeHitTarget(true);
+      let numberOfDonors = donors + 1;
+      setDonators(numberOfDonors);
     }
+    // if (Number(inputAmount) > Number(totalAmount)) {
+    //   setTooHigh(true);
+    // }
     if (Number(inputAmount) < 5) {
       console.log('OOPS!');
       setTooLow(true);
@@ -54,7 +62,11 @@ function DonationForm() {
 
   return (
     <>
-      <ProgressBar needed={totalAmount} />
+      <ProgressBar needed={totalAmount} completed={amountRaised} />
+      <h2 className='mt-5 mb-5'>Only a few days left to fund this project</h2>
+      <p>
+        join the {donors} other donors that have already suported this project
+      </p>
       <div>CARPUTTY ☕️ hey</div>
       <div>total is {totalAmount}</div>
       <form onSubmit={handleSubmit}>
@@ -66,13 +78,11 @@ function DonationForm() {
             value={inputAmount}
           />
           <button type='submit' onClick={handleSum}>
-            click
+            Give Now
           </button>
         </div>
         {tooLow && <p>Please input $5 or a higher amount! </p>}
-        {tooHigh && (
-          <p>Please input an amount lower or equal to {totalAmount}! </p>
-        )}
+        {weHitTarget && <p>YAY! We hit our target! </p>}
       </form>
     </>
   );

@@ -1,12 +1,11 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
-import CarputtyDonation from './Components/CarputtyDonation';
-//import reportWebVitals from './reportWebVitals';
+import DonationForm from './Components/DonationForm';
 
 ReactDOM.render(
   <React.StrictMode>
-    <CarputtyDonation />
+    <DonationForm />
   </React.StrictMode>,
   document.getElementById('root')
 );
