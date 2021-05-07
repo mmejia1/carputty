@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
-import ProgressBar from './ProgressBar';
-import { Button, Form, Container, Row, Col } from 'react-bootstrap';
+//import ProgressBar from './ProgressBar';
+import { Button, Card, Form, Container, Row, Col } from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import ProgressBar from 'react-bootstrap/ProgressBar';
 
 function DonationForm() {
   //info for bar component
@@ -59,29 +60,46 @@ function DonationForm() {
 
   return (
     <>
-      <ProgressBar needed={totalAmount} completed={amountRaised} />
-      <h2 className='mt-5 mb-5'>Only a few days left to fund this project</h2>
-      <p id='join'>
-        Join the {donors} other donors that have already suported this project
-      </p>
+      <Container className='justify-content-center'>
+        <Card class='card text-center w-50 mt-5 '>
+          <Card.Body>
+            {/* <ProgressBar variant='info' class='w-25'></ProgressBar> */}
+            <ProgressBar
+              now={(amountRaised / 5000) * 100}
+              variant='info'
 
-      <div>total raised is {totalAmount}</div>
-      <form onSubmit={handleSubmit}>
-        <div className='App'>
-          <label htmlFor='amount'></label>
-          <input
-            placeholder='$'
-            name='input amount'
-            onChange={(evt) => onChange(evt)}
-            value={inputAmount}
-          />
-          <Button type='submit' onClick={handleSum}>
-            Give Now
-          </Button>
-        </div>
-        {tooLow && <p>Please input $5 or a higher amount! </p>}
-        {weHitTarget && <p>YAY! We hit our target! </p>}
-      </form>
+              // needed={totalAmount}
+              // completed={amountRaised}
+            />
+
+            <Card.Title className='mt-5 mb-5'>
+              <h2>Only a few days left to fund this project</h2>
+            </Card.Title>
+            <p id='join'>
+              Join the {donors} other donors who have already suported this
+              project
+            </p>
+
+            <div>total raised is {totalAmount}</div>
+            <Form onSubmit={handleSubmit}>
+              <div className='App'>
+                <label htmlFor='amount'></label>
+                <input
+                  placeholder='$'
+                  name='input amount'
+                  onChange={(evt) => onChange(evt)}
+                  value={inputAmount}
+                />
+                <Button variant='info' type='submit' onClick={handleSum}>
+                  Give Now
+                </Button>
+              </div>
+              {tooLow && <p>Please input $5 or a higher amount! </p>}
+              {weHitTarget && <p>YAY! We hit our target! </p>}
+            </Form>
+          </Card.Body>
+        </Card>
+      </Container>
     </>
   );
 }

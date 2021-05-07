@@ -1,15 +1,9 @@
-import React, { useState } from 'react';
+import React from 'react';
 
 const ProgressBar = (props) => {
   //we need amount raised and amount still needed for bar
   console.log('prop num', props.completed);
   console.log('prp', typeof props.completed);
-
-  //const complete = (Number(props.completed) / 5000) * 100;
-  //console.log('complete', complete);
-  const bgcolor = '#00695c';
-  //const completed = 60;
-  //const [completed, setComplete] = useState(0);
 
   const containerStyles = {
     height: 20,
@@ -22,7 +16,7 @@ const ProgressBar = (props) => {
   const fillerStyles = {
     height: '100%',
     width: `${(props.completed / 5000) * 100}%`,
-    backgroundColor: bgcolor,
+    backgroundColor: '#00695c',
     borderRadius: 'inherit',
     textAlign: 'right',
   };
