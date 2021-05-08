@@ -1,8 +1,17 @@
 import React, { useState } from 'react';
-//import ProgressBar from './ProgressBar';
-import { Button, Card, Form, Container, Row, Col } from 'react-bootstrap';
+
+import {
+  Button,
+  Card,
+  Form,
+  Container,
+  ProgressBar,
+  Alert,
+  Row,
+  Col,
+} from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import ProgressBar from 'react-bootstrap/ProgressBar';
+//import ProgressBar from 'react-bootstrap/ProgressBar';
 
 function DonationForm() {
   //info for bar component
@@ -13,27 +22,40 @@ function DonationForm() {
   const [inputAmount, setInputAmount] = useState('');
   const [tooLow, setTooLow] = useState(false);
   const [weHitTarget, setWeHitTarget] = useState(false);
+  const [isNum, setIsNum] = useState(false);
 
   //function setTotalAmount() {}
 
   function handleSubmit(evt) {
     evt.preventDefault();
     //const stringAmount = inputAmount;
-    console.log('MADE IT HERE');
+    console.log('MADE IT HERE', inputAmount);
+    if (isNaN(inputAmount)) {
+      setIsNum(true);
+      //what is this doing
+      setTooLow(false);
+
+      console.log('in set imput');
+    }
+
+    setInputAmount('');
   }
 
   function onChange(evt) {
     console.log(evt.target.value);
-    let numArray = inputAmount.slice();
-    console.log(numArray);
-    numArray = evt.target.value;
-    console.log('numArray', numArray);
+    let num = inputAmount.slice();
+    console.log(num);
+    num = evt.target.value;
+    console.log('numArray', num);
     console.log(typeof amountRaised);
-    setInputAmount(numArray);
+    setInputAmount(num);
   }
   function handleSum() {
     //here well do our check for $5
+
     if (Number(inputAmount) > 5) {
+      setIsNum(false);
+      setTooLow(false);
       console.log('inputamount', inputAmount);
       const amountNeeded = totalAmount - inputAmount;
       console.log(typeof totalAmount);
@@ -54,51 +76,77 @@ function DonationForm() {
     }
     if (Number(inputAmount) < 5) {
       console.log('OOPS!');
+      setIsNum(false);
       setTooLow(true);
     }
   }
 
   return (
     <>
-      <Container className='justify-content-center'>
-        <Card class='card text-center w-50 mt-5 '>
-          <Card.Body>
-            {/* <ProgressBar variant='info' class='w-25'></ProgressBar> */}
-            <ProgressBar
-              now={(amountRaised / 5000) * 100}
-              variant='info'
+      <Container className='d-flex vh-100'>
+        <Row className='m-auto text-center w-50'>
+          <Alert class='alert alert-primary text-center' role='alert'>
+            {weHitTarget && <p>we did it!</p>}{' '}
+            {!weHitTarget && (
+              <p>${totalAmount} still needed to fund this project</p>
+            )}
+          </Alert>
 
-              // needed={totalAmount}
-              // completed={amountRaised}
-            />
+          <Col>
+            <Card
+              class='card text-center w-50'
+              style={{
+                boxShadow: '0px 0px 5px 2px rgba(100, 100, 100, 0.6) ',
+              }}
+            >
+              <Card.Body>
+                <ProgressBar
+                  data-toggle='popover'
+                  data-placement='top'
+                  now={(amountRaised / 5000) * 100}
+                  variant='info'
+                  // label={(amountRaised / 5000) * 100}
+                ></ProgressBar>
+                <Card.Title className='mt-5 mb-5'>
+                  <h2>Only a few days left to fund this project</h2>
+                </Card.Title>
+                <p id='join'>
+                  Join the {donors} other donors who have already suported this
+                  project
+                </p>
+                <Form onSubmit={handleSubmit}>
+                  {/* <Form.Group controlId='formHorizontal'> */}
+                  <div className='App'>
+                    <label htmlFor='amount'></label>
+                    <Form.Row>
+                      <Col className='ml-5'>
+                        <Form.Control
+                          placeholder='$'
+                          name='input amount'
+                          onChange={(evt) => onChange(evt)}
+                          value={inputAmount}
+                        />
+                      </Col>
+                      <Col>
+                        <Button
+                          variant='info'
+                          type='submit'
+                          onClick={handleSum}
+                        >
+                          Give Now
+                        </Button>
+                      </Col>
+                    </Form.Row>
+                  </div>
 
-            <Card.Title className='mt-5 mb-5'>
-              <h2>Only a few days left to fund this project</h2>
-            </Card.Title>
-            <p id='join'>
-              Join the {donors} other donors who have already suported this
-              project
-            </p>
-
-            <div>total raised is {totalAmount}</div>
-            <Form onSubmit={handleSubmit}>
-              <div className='App'>
-                <label htmlFor='amount'></label>
-                <input
-                  placeholder='$'
-                  name='input amount'
-                  onChange={(evt) => onChange(evt)}
-                  value={inputAmount}
-                />
-                <Button variant='info' type='submit' onClick={handleSum}>
-                  Give Now
-                </Button>
-              </div>
-              {tooLow && <p>Please input $5 or a higher amount! </p>}
-              {weHitTarget && <p>YAY! We hit our target! </p>}
-            </Form>
-          </Card.Body>
-        </Card>
+                  {tooLow && <p>minimum donation is $5 </p>}
+                  {weHitTarget && <p>YAY! We hit our target! </p>}
+                  {isNum && <p>Please input a dollar amount</p>}
+                </Form>
+              </Card.Body>
+            </Card>
+          </Col>
+        </Row>
       </Container>
     </>
   );
