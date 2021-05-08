@@ -22,3 +22,4 @@ React, bootstrap
 1. clone this repo
 2. npm install
 3. npm start
+4. Go to http://localhost:3000/
